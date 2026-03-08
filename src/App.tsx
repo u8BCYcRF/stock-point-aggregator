@@ -18,7 +18,7 @@ type Tab = '集計' | 'プロンプト';
 function getNextMondayLabel(): string {
     const today = new Date();
     const day = today.getDay();
-    const daysUntilMonday = day === 0 ? 1 : day === 1 ? 7 : 8 - day;
+    const daysUntilMonday = day === 0 ? 1 : day === 1 ? 0 : 8 - day;
     const nextMonday = new Date(today);
     nextMonday.setDate(today.getDate() + daysUntilMonday);
     const y = nextMonday.getFullYear();
@@ -156,7 +156,7 @@ export default function App() {
                             <li className="nav-item" key={tab}>
                                 <button
                                     onClick={() => setActiveTab(tab)}
-                                    className={`nav-link d-flex align-items-center gap-2 fw-semibold ${activeTab === tab ? 'active' : ''}`}
+                                    className={`nav-link d-flex align-items-center gap-2 fw-semibold ${activeTab === tab ? '' : 'text-secondary'}`}
                                 >
                                     {tab === '集計' ? <Calculator size={16} /> : <FileText size={16} />}
                                     {tab}
