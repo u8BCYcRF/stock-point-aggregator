@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import { Calculator, Trophy, List, Info, Plus, Trash2, ChevronRight, TrendingUp, FileText, Copy, Check } from 'lucide-react';
+import { Calculator, Trophy, List, Info, Plus, Trash2, ChevronRight, TrendingUp, FileText, Copy, Check, Download } from 'lucide-react';
 import { PROMPT_TEMPLATE } from './data/prompt';
 
 interface ScoreItem {
@@ -50,6 +50,23 @@ export default function App() {
 
     const handleAddInput = () => {
         setInputTexts([...inputTexts, '']);
+    };
+
+    const handleExport = () => {
+        const content = inputTexts.join('\n\n');
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const today = new Date();
+        const dateStr = [
+            today.getFullYear(),
+            String(today.getMonth() + 1).padStart(2, '0'),
+            String(today.getDate()).padStart(2, '0'),
+        ].join('-');
+        a.download = `stock-point-data_${dateStr}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
     };
 
     const handleRemoveInput = (index: number) => {
@@ -278,6 +295,14 @@ export default function App() {
                                     >
                                         <Plus size={20} />
                                         入力欄を追加
+                                    </button>
+
+                                    <button
+                                        onClick={handleExport}
+                                        className="btn btn-outline-secondary fw-bold d-flex align-items-center justify-content-center gap-2 py-2 flex-grow-1"
+                                    >
+                                        <Download size={20} />
+                                        エクスポート
                                     </button>
 
                                     <button
